@@ -7,6 +7,7 @@ $(function () {
 	var stopBtn = $("button[name='stop']")
 	var centreOnLocationBtn = $("#centreOnLocation")
 	var expectedBusesTextarea = $("textarea[name='expectedBuses']")
+	var alertTypesInputs = $("input[name='alertTypes']")
 	var getTimesInterval
 	var previousAlerts = {}
 	var LONDON = {lat: 51.489309500000005, lng: -0.08818969999999995}
@@ -90,24 +91,44 @@ $(function () {
 
 	}
 
+	// if ('speechSynthesis' in window) { // Audio available }
+	// if ("Notification" in window) { // Notifications available }
+
 	function alertBus(bus, minutes) {
 
-		var message
+		console.log(bus)
+		//bus = bus.split("").join(" ")
+		console.log(bus)
 
-		if ('speechSynthesis' in window) {
-
-			bus = bus.split("").join(" ")
-			message = "The " + bus + ", is due"
+		function message(bus, minutes) {
+			var message = "The " + bus + " is due"
 			if (minutes != 0) {
-				message +=  " in " + minutes + "minutes"
+				message +=  " in " + minutes + " minutes"
 			}
+			return message
+		}
 
-			var utterance = new SpeechSynthesisUtterance(message)
+		var alertType = alertTypesInputs.filter(":checked").val()
+
+		if (alertType === "spokenAudio") {
+
+			bus = bus.split("").join(" ") // Sounds better with number split
+
+			var utterance = new SpeechSynthesisUtterance(message(bus, minutes))
 			window.speechSynthesis.speak(utterance)
 
+		} else if (alertType === "desktopNotification") {
+
+			Notification.requestPermission(function (permission) {
+				if (permission === "granted") {
+					var notification = new Notification(message(bus, minutes))
+				}
+			})
+
 		} else {
-			message = "The " + bus + " is due in " + minutes + "minutes"
-			console.alert(message)
+
+			console.log(message(bus, minutes))
+
 		}
 
 	}
@@ -176,7 +197,7 @@ $(function () {
 	// 	return centreMapOn(map, {latitude: response.coords.latitude, longitude: response.coords.longitude})
 	// })
 	.catch(function(e) {
-		console.log("An error occurred doing somethign!", e)
+		console.log("An error occurred doing something!", e)
 	})
 
 	function getBusStops() {
