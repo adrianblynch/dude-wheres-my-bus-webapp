@@ -103,7 +103,7 @@ $(function () {
 		function message(bus, minutes) {
 			var message = "The " + bus + " is due"
 			if (minutes != 0) {
-				message +=  " in " + minutes + " minutes"
+				message +=  " in " + minutes + " minute" + (minutes > 1 ? "s" : "")
 			}
 			return message
 		}
@@ -121,7 +121,10 @@ $(function () {
 
 			Notification.requestPermission(function (permission) {
 				if (permission === "granted") {
-					var notification = new Notification(message(bus, minutes))
+					var notification = new Notification(message(bus, minutes), {tag: bus})
+					notification.onshow = function () {
+						setTimeout(notification.close.bind(notification), 5000)
+					}
 				}
 			})
 
