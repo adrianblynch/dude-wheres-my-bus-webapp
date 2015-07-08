@@ -192,13 +192,13 @@ $(function () {
 		map = response
 		return makeStopMarkers(stops, map)
 	})
-	// .then(function(response) {
-	// 	markers = response
-	// 	return getCurrentPosition()
-	// })
-	// .then(function(response) {
-	// 	return centreMapOn(map, {latitude: response.coords.latitude, longitude: response.coords.longitude})
-	// })
+	.then(function(response) {
+		markers = response
+		return getCurrentPosition()
+	})
+	.then(function(response) {
+		return centreMapOn(map, {latitude: response.coords.latitude, longitude: response.coords.longitude})
+	})
 	.catch(function(e) {
 		console.log("An error occurred doing something!", e)
 	})
