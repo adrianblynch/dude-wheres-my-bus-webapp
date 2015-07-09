@@ -1,0 +1,6 @@
+{
+  "name": "dude-wheres-my-bus",
+  "root": "./",
+  "clean_urls": true,
+  "error_page": "error.html"
+}
