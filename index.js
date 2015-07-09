@@ -11,6 +11,7 @@ $(function () {
 	var getTimesInterval
 	var previousAlerts = {}
 	var LONDON = {lat: 51.489309500000005, lng: -0.08818969999999995}
+	var HOME = {lat: 51.396369, lng: 0.0308211}
 	var GET_TIMES_MS = 10000
 	var START_ZOOM = 16
 	var stopMap = $("#stopMap")
@@ -95,10 +96,6 @@ $(function () {
 	// if ("Notification" in window) { // Notifications available }
 
 	function alertBus(bus, minutes) {
-
-		console.log(bus)
-		//bus = bus.split("").join(" ")
-		console.log(bus)
 
 		function message(bus, minutes) {
 			var message = "The " + bus + " is due"
@@ -213,7 +210,7 @@ $(function () {
 		return new Promise(function(resolve, reject) {
 			try {
 				var mapOptions = {
-					center: LONDON,
+					center: HOME,
 					zoom: START_ZOOM,
 					streetViewControl: false
 				}
