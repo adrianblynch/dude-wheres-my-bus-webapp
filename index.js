@@ -14,6 +14,8 @@ $(function () {
 	var HOME = {lat: 51.396369, lng: 0.0308211}
 	var GET_TIMES_MS = 10000
 	var START_ZOOM = 16
+	var BUS_STOPS_URL = window.location.href.indexOf("localhost") === -1 ? "https://thawing-plains-9018.herokuapp.com/stops" : "http://localhost:3000/stops"
+
 	var stopMap = $("#stopMap")
 
 	startBtn.click(function (e) {
@@ -182,7 +184,7 @@ $(function () {
 
 	getBusStops()
 	.then(function(response) {
-		stops = response
+		stops = response.length ? response : [response]
 		return initialiseMap(stops)
 	})
 	.then(function(response) {
@@ -202,7 +204,7 @@ $(function () {
 
 	function getBusStops() {
 		return new Promise(function(resolve, reject) {
-			$.get("data/bus-stops.json").done(resolve).fail(reject)
+			$.get(BUS_STOPS_URL).done(resolve).fail(reject)
 		})
 	}
 
